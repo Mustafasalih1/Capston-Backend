@@ -15,5 +15,14 @@ class DailyFuelReport(models.Model):
     created_by = models.ForeignKey(User,on_delete=models.SET_NULL, null=True)
     craeted_at = models.DateField(auto_now_add=True)
     
-    def __str__(self):
-        return f"{self.site} - {self.report_date}"
+    def save(self, *args, **kwargs):
+        self.remaining_quantity = self.planned_quantity - self.delivered_quantity
+
+        if self.delivered_quantity == 0:
+            self.status = "Not Delivered"
+        elif self.delivered_quantity < self.planned_quantity:
+            self.status = "Partial"
+        else:
+            self.status = "Completed"
+
+        super().save(*args, **kwargs)

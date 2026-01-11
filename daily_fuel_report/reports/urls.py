@@ -1,6 +1,9 @@
-from django.urls import path
-from .views import DailyFuelReportListView
 
-urlpatterns = [
-    path("reports/", DailyFuelReportListView.as_view(), name = "report-list"),
-]
+from rest_framework.routers import DefaultRouter
+from .views import DailyFuelReportViewSet
+
+
+router = DefaultRouter()
+router.register("reports", DailyFuelReportViewSet)
+
+urlpatterns = router.urls

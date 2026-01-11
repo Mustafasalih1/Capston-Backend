@@ -1,8 +1,9 @@
-from .views import SiteListView,StateListView
-from django.urls import path
+from rest_framework.routers import DefaultRouter
+from .views import StateViewSet, SiteViewSet
 
-urlpatterns = [
-    path("sites/", SiteListView.as_view(), name = 'site-list'),
-    path("states/", StateListView.as_view(), name = 'state-list'),
-    
-]
+
+router = DefaultRouter()
+router.register("states", StateViewSet)
+router.register("sites", SiteViewSet)
+
+urlpatterns = router.urls
